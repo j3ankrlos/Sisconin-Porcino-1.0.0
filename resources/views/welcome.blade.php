@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>SISCONINT - Sistema de Control Integral</title>
+        <title>Sisconint-Porcino - Sistema de Control Integral</title>
 
         <!-- Favicons -->
         <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
@@ -409,7 +409,7 @@
             <div class="hero">
                 <div class="logo-container">
                     <div class="logo">
-                        <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="SISCONINT Logo" onerror="this.style.display='none'">
+                        <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="Sisconint-Porcino Logo" onerror="this.style.display='none'">
                     </div>
                 </div>
                 <p class="description">
@@ -456,7 +456,7 @@
 
             <!-- Info Section -->
             <div class="info-section">
-                <h2>¿Por qué elegir SISCONINT?</h2>
+                <h2>¿Por qué elegir Sisconint-Porcino?</h2>
                 <ul class="info-list">
                     <li>✅ Soluciones personalizadas para tu negocio</li>
                     <li>✅ Soporte técnico especializado 24/7</li>

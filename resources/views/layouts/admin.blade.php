@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ config('app.name', 'Laravel') }} - Admin</title>
+  <title>Sisconint-Porcino - Admin</title>
 
   <!-- Favicons -->
   <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
@@ -96,10 +96,10 @@
     <!-- Brand Logo -->
     <a href="{{ route('admin.index') }}" class="brand-link">
       <!-- Emblema para cuando está colapsado -->
-      <img src="{{ asset('Emblema.png') }}" alt="SISCONINT Emblema" class="brand-logo-emblem elevation-3 img-circle">
+      <img src="{{ asset('Emblema.png') }}" alt="Sisconint-Porcino Emblema" class="brand-logo-emblem elevation-3 img-circle">
       <!-- Logo completo para cuando está expandido -->
       <span class="brand-text brand-logo-full">
-        <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="SISCONINT Logo" style="max-height: 40px;">
+        <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="Sisconint-Porcino Logo" style="max-height: 40px;">
       </span>
     </a>
 
@@ -437,7 +437,7 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Copyright &copy; {{ date('Y') }} <a href="{{ route('admin.index') }}">SISCONINT</a>.</strong>
+    <strong>Copyright &copy; {{ date('Y') }} <a href="{{ route('admin.index') }}">Sisconint-Porcino</a>.</strong>
     Todos los derechos reservados.
     <div class="float-right d-none d-sm-inline-block">
       <b>Versión</b> 1.2.0

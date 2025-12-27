@@ -99,7 +99,7 @@
                 <h3 class="card-title text-bold"><i class="fas fa-chart-line mr-2"></i> Estado General</h3>
             </div>
             <div class="card-body">
-                <p class="text-muted">Bienvenido al panel central de <strong>SISCONINT</strong>. Aquí tienes un resumen del inventario ganadero y la estructura corporativa de tu empresa agropecuaria.</p>
+                <p class="text-muted">Bienvenido al panel central de <strong>Sisconint-Porcino</strong>. Aquí tienes un resumen del inventario ganadero y la estructura corporativa de tu empresa agropecuaria.</p>
             </div>
         </div>
     </div>

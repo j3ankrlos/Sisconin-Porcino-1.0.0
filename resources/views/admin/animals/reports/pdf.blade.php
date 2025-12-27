@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>SISCONINT - Inventario de Animales</h1>
+        <h1>Sisconint-Porcino - Inventario de Animales</h1>
         <p>Fecha de generación: {{ now()->format('d/m/Y H:i:s') }}</p>
     </div>
 

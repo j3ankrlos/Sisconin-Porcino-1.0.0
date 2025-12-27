@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ config('app.name', 'Laravel') }} | Registration Page</title>
+  <title>Sisconint-Porcino | Registration Page</title>
 
   <!-- Favicons -->
   <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
@@ -96,7 +96,7 @@
 <div class="register-box">
   <div class="register-logo">
     <a href="{{ route('dashboard') }}">
-      <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="SISCONINT Logo" style="max-height: 100px;">
+      <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="Sisconint-Porcino Logo" style="max-height: 100px;">
     </a>
   </div>
 
