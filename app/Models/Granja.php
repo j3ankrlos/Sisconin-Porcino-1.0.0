@@ -25,4 +25,9 @@ class Granja extends Model
     {
         return $this->belongsToMany(Especie::class, 'especie_granja');
     }
+
+    public function naves()
+    {
+        return $this->hasMany(Nave::class);
+    }
 }

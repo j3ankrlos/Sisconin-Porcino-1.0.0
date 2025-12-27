@@ -11,4 +11,9 @@ class AnimalController extends Controller
     {
         return view('admin.animals.index');
     }
+
+    public function create()
+    {
+        return view('admin.animals.create');
+    }
 }

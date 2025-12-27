@@ -148,7 +148,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.animals.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Crear activo</p>
                 </a>
@@ -440,7 +440,7 @@
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{ route('admin.index') }}">Sisconint-Porcino</a>.</strong>
     Todos los derechos reservados.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Versión</b> 1.2.1
+      <b>Versión</b> 1.3.0
     </div>
   </footer>
 </div>

@@ -15,6 +15,8 @@ class Animal extends Model
         'id_oreja',
         'especie_id',
         'raza_id',
+        'seccion_id',
+        'corral',
         'sexo',
         'fecha_nacimiento',
         'padre_id',
@@ -37,6 +39,19 @@ class Animal extends Model
     public function raza()
     {
         return $this->belongsTo(Raza::class);
+    }
+
+    public function seccion()
+    {
+        return $this->belongsTo(Seccion::class);
+    }
+
+    /**
+     * Obtiene la fecha de nacimiento en formato PIC (Vuelta-Pic).
+     */
+    public function getFechaPicAttribute()
+    {
+        return \App\Helpers\PicDateHelper::format($this->fecha_nacimiento);
     }
 
     // Pedigree

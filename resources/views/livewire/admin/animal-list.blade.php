@@ -47,7 +47,10 @@
             <div class="row mt-2">
                 <div class="col-12">
                     <div class="float-right">
-                        <button wire:click="exportExcel" class="btn btn-sm btn-success">
+                        <a href="{{ route('admin.animals.create') }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus mr-1"></i> Registrar Nuevo
+                        </a>
+                        <button wire:click="exportExcel" class="btn btn-sm btn-success ml-1">
                             <i class="fas fa-file-excel mr-1"></i> Excel
                         </button>
                         <button wire:click="exportPdf" class="btn btn-sm btn-danger">
