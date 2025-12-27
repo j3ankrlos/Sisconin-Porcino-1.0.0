@@ -19,7 +19,9 @@ class RolePermissionSeeder extends Seeder
             'ver usuarios', 'crear usuarios', 'editar usuarios', 'eliminar usuarios',
             'ver maternidad', 'ver reproduccion', 'ver reemplazo',
             'ver movimientos', 'ver reportes', 'ver crear activos',
-            'ver granjas', 'ver naves', 'ver secciones' // Permisos extra por si acaso
+            'ver empresa', 'editar empresa',
+            'ver granjas', 'crear granjas', 'editar granjas', 'eliminar granjas',
+            'ver granjas naves', 'ver secciones' // Permisos extra por si acaso
         ];
 
         // 2. Crear permisos

@@ -365,6 +365,21 @@
               </li>
             </ul>
           </li>
+          @can('ver empresa')
+          <li class="nav-header">CONFIGURACIÓN</li>
+          <li class="nav-item">
+            <a href="{{ route('admin.empresa.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>Empresa Principal</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.granjas.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-map-marked-alt"></i>
+              <p>Granjas / Sucursales</p>
+            </a>
+          </li>
+          @endcan
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

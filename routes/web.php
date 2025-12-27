@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AnimalController;
+use App\Http\Controllers\Admin\EmpresaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +24,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     
     // Gestión de Animales
     Route::get('animals', [AnimalController::class, 'index'])->name('animals.index');
+
+    // Configuración de Empresa y Granjas
+    Route::get('empresa', [EmpresaController::class, 'index'])->name('empresa.index');
+    Route::get('granjas', [EmpresaController::class, 'granjas'])->name('granjas.index');
 });
 
 Route::middleware('auth')->group(function () {
