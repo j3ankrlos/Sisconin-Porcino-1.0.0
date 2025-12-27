@@ -47,7 +47,7 @@
     }
 
     .brand-logo-full {
-      max-height: 40px;
+      max-height: 50px;
       width: auto;
     }
   </style>
@@ -99,7 +99,7 @@
       <img src="{{ asset('Emblema.png') }}" alt="Sisconint-Porcino Emblema" class="brand-logo-emblem elevation-3 img-circle">
       <!-- Logo completo para cuando está expandido -->
       <span class="brand-text brand-logo-full">
-        <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="Sisconint-Porcino Logo" style="max-height: 40px;">
+        <img src="{{ asset('images/LogoSISCONINT.png') }}" alt="Sisconint-Porcino Logo" style="max-height: 50px;">
       </span>
     </a>
 
