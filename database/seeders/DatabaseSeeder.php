@@ -15,20 +15,38 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        $user = User::factory()->create([
-            'name' => 'Jean Carlos',
-            'email' => 'jean@example.com',
-            'password' => bcrypt('password'),
-        ]);
-
+        // 1. Ejecutar seeders de configuración básica primero
         $this->call([
             RolePermissionSeeder::class,
             EmpresaSeeder::class,
             AnimalSeeder::class,
         ]);
 
-        $user->assignRole('Admin');
+        // 2. Crear Usuario Administrador Principal (JEAN)
+        $admin = User::firstOrCreate(
+            ['email' => 'jeankrlos687@gmail.com'],
+            [
+                'name' => 'Jean',
+                'password' => bcrypt('123'),
+            ]
+        );
+
+        // Asegurar que tenga el rol Admin
+        if (!$admin->hasRole('Admin')) {
+            $admin->assignRole('Admin');
+        }
+
+        // Crear un usuario de prueba (Opcional)
+        $user = User::firstOrCreate(
+            ['email' => 'user@example.com'],
+            [
+                'name' => 'Usuario Prueba',
+                'password' => bcrypt('password'),
+            ]
+        );
+
+        if (!$user->hasRole('User')) {
+            $user->assignRole('User');
+        }
     }
 }
