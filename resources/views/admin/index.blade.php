@@ -85,9 +85,9 @@
             <p>Variedad de Razas</p>
           </div>
           <div class="icon">
-            <i class="fas fa-dna"></i>
+            <i class="fas fa-fingerprint"></i>
           </div>
-          <a href="#" class="small-box-footer">Próximamente <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="{{ route('admin.razas.index') }}" class="small-box-footer">Ver Razas <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
 </div>
