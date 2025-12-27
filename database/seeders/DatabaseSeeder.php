@@ -18,12 +18,16 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Jean Carlos',
+            'email' => 'jean@example.com',
+            'password' => bcrypt('password'),
         ]);
 
-        $this->call(RolePermissionSeeder::class);
+        $this->call([
+            RolePermissionSeeder::class,
+            AnimalSeeder::class,
+        ]);
 
-        $user->assignRole('admin');
+        $user->assignRole('Admin');
     }
 }

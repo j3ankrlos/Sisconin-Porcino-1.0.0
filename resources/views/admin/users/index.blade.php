@@ -13,38 +13,7 @@
     </div>
   </div>
   <div class="card-body">
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Fecha de Registro</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($users as $user)
-        <tr>
-          <td>{{ $user->id }}</td>
-          <td>{{ $user->name }}</td>
-          <td>{{ $user->email }}</td>
-          <td>{{ $user->getRoleNames()->first() }}</td>
-          <td>{{ $user->created_at->format('d/m/Y') }}</td>
-          <td>
-            <a href="{{ route('admin.users.show', $user) }}" class="btn btn-info btn-sm">Ver</a>
-            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-sm">Editar</a>
-            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" style="display:inline;">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-            </form>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+    <livewire:admin.user-table />
   </div>
 </div>
 

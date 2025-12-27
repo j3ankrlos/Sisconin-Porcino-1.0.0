@@ -2,30 +2,43 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Crear permisos
-        Permission::create(['name' => 'ver usuarios']);
-        Permission::create(['name' => 'crear usuarios']);
-        Permission::create(['name' => 'editar usuarios']);
-        Permission::create(['name' => 'eliminar usuarios']);
+        // Reset cached roles and permissions
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Crear roles
-        $adminRole = Role::create(['name' => 'admin']);
-        $userRole = Role::create(['name' => 'user']);
+        // 1. Definir todos los permisos
+        $permissions = [
+            'ver usuarios', 'crear usuarios', 'editar usuarios', 'eliminar usuarios',
+            'ver maternidad', 'ver reproduccion', 'ver reemplazo',
+            'ver movimientos', 'ver reportes', 'ver crear activos',
+            'ver granjas', 'ver naves', 'ver secciones' // Permisos extra por si acaso
+        ];
 
-        // Asignar permisos a roles
-        $adminRole->givePermissionTo(['ver usuarios', 'crear usuarios', 'editar usuarios', 'eliminar usuarios']);
-        $userRole->givePermissionTo(['ver usuarios']); // Ejemplo, usuarios normales solo ven
+        // 2. Crear permisos
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
+        }
+
+        // 3. Crear roles (Admin y User)
+        $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
+        $userRole = Role::firstOrCreate(['name' => 'User', 'guard_name' => 'web']);
+
+        // 4. Asignar todos los permisos al Admin
+        $adminRole->syncPermissions($permissions);
+
+        // 5. Asignar permisos básicos al User
+        $userRole->syncPermissions([
+            'ver movimientos',
+            'ver reportes',
+            'ver crear activos'
+        ]);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AnimalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,9 @@ Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 've
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
     Route::resource('users', AdminUserController::class);
     Route::resource('roles', RoleController::class);
+    
+    // Gestión de Animales
+    Route::get('animals', [AnimalController::class, 'index'])->name('animals.index');
 });
 
 Route::middleware('auth')->group(function () {
