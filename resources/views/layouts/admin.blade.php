@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Sisconint-Porcino - Admin</title>
+  <title>@yield('title') | Sisconint-Porcino</title>
 
   <!-- Favicons -->
   <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
@@ -440,7 +440,7 @@
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{ route('admin.index') }}">Sisconint-Porcino</a>.</strong>
     Todos los derechos reservados.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Versión</b> 1.2.0
+      <b>Versión</b> 1.2.1
     </div>
   </footer>
 </div>
