@@ -20,4 +20,9 @@ class Granja extends Model
     {
         return $this->belongsToMany(Especializacion::class, 'granja_especializacion');
     }
+
+    public function especies()
+    {
+        return $this->belongsToMany(Especie::class, 'especie_granja');
+    }
 }

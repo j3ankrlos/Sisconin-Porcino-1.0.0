@@ -23,7 +23,7 @@
                         <th>Ubicación</th>
                         <th>Hectáreas</th>
                         <th>Gerente</th>
-                        <th>Especialización</th>
+                        <th>Especies en Producción</th>
                         <th style="width: 150px">Acciones</th>
                     </tr>
                 </thead>
@@ -40,7 +40,7 @@
                             <td>{{ $granja->tamano_hectareas }} ha</td>
                             <td>{{ $granja->gerente }}</td>
                             <td>
-                                @foreach($granja->especializaciones as $esp)
+                                @foreach($granja->especies as $esp)
                                     <span class="badge badge-info">{{ $esp->nombre }}</span>
                                 @endforeach
                             </td>
@@ -110,20 +110,20 @@
                         </div>
 
                         <div class="form-group mt-3">
-                            <label class="font-weight-bold">Especialización Ganadera:</label>
+                            <label class="font-weight-bold">Especies en esta Sucursal:</label>
                             <div class="row">
-                                @foreach($especialidades as $especialidad)
-                                    <div class="col-md-6">
+                                @forelse($especies as $especialidad)
+                                    <div class="col-md-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" type="checkbox" id="check_{{ $especialidad->id }}" value="{{ $especialidad->id }}" wire:model="selected_specializations">
-                                            <label for="check_{{ $especialidad->id }}" class="custom-control-label font-weight-normal">{{ $especialidad->nombre }}</label>
+                                            <input class="custom-control-input" type="checkbox" id="esp_{{ $especialidad->id }}" value="{{ $especialidad->id }}" wire:model="selected_species">
+                                            <label for="esp_{{ $especialidad->id }}" class="custom-control-label font-weight-normal">{{ $especialidad->nombre }}</label>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="mt-2">
-                                <label class="small">Otra especie (Opcional):</label>
-                                <input type="text" wire:model="otra_especializacion" class="form-control form-control-sm" placeholder="Ej: Equinos, Conejos...">
+                                @empty
+                                    <div class="col-12">
+                                        <p class="text-muted"><i class="fas fa-exclamation-triangle"></i> No hay especies registradas. Por favor, agregue especies en el módulo de Configuración > Especies.</p>
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>

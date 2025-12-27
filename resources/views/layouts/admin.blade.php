@@ -379,6 +379,12 @@
               <p>Granjas / Sucursales</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.especies.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-paw"></i>
+              <p>Especies</p>
+            </a>
+          </li>
           @endcan
         </ul>
       </nav>

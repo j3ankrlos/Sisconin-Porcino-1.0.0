@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Granja;
 use App\Models\Empresa;
-use App\Models\Especializacion;
+use App\Models\Especie;
 
 class GranjaManager extends Component
 {
@@ -15,8 +15,7 @@ class GranjaManager extends Component
     public $search = '';
     public $isOpen = false;
     public $granja_id, $nombre, $direccion, $latitud, $longitud, $tamano_hectareas, $fecha_establecimiento, $gerente;
-    public $selected_specializations = [];
-    public $otra_especializacion = '';
+    public $selected_species = [];
 
     protected $paginationTheme = 'bootstrap';
 
@@ -32,12 +31,12 @@ class GranjaManager extends Component
 
     public function render()
     {
-        $granjas = Granja::with('especializaciones')
+        $granjas = Granja::with('especies')
             ->where('nombre', 'like', '%' . $this->search . '%')
-            ->paginate(5);
-        $especialidades = Especializacion::all();
+            ->paginate(10);
+        $especies = Especie::orderBy('nombre')->get();
 
-        return view('livewire.admin.granja-manager', compact('granjas', 'especialidades'));
+        return view('livewire.admin.granja-manager', compact('granjas', 'especies'));
     }
 
     public function create()
@@ -66,15 +65,15 @@ class GranjaManager extends Component
         $this->tamano_hectareas = '';
         $this->fecha_establecimiento = '';
         $this->gerente = '';
-        $this->selected_specializations = [];
-        $this->otra_especializacion = '';
+        $this->selected_species = [];
+        $this->resetErrorBag();
     }
 
     public function store()
     {
         $this->validate();
 
-        $empresa = Empresa::first(); // Asignar a la primera empresa por defecto
+        $empresa = Empresa::first(); 
 
         $granja = Granja::updateOrCreate(['id' => $this->granja_id], [
             'empresa_id' => $empresa->id,
@@ -87,12 +86,7 @@ class GranjaManager extends Component
             'gerente' => $this->gerente,
         ]);
 
-        // Manejar especializaciones
-        if ($this->otra_especializacion) {
-            $nueva = Especializacion::firstOrCreate(['nombre' => $this->otra_especializacion]);
-            $this->selected_specializations[] = $nueva->id;
-        }
-        $granja->especializaciones()->sync($this->selected_specializations);
+        $granja->especies()->sync($this->selected_species);
 
         session()->flash('success', $this->granja_id ? 'Sucursal actualizada con éxito.' : 'Sucursal creada con éxito.');
 
@@ -102,7 +96,7 @@ class GranjaManager extends Component
 
     public function edit($id)
     {
-        $granja = Granja::with('especializaciones')->findOrFail($id);
+        $granja = Granja::with('especies')->findOrFail($id);
         $this->granja_id = $id;
         $this->nombre = $granja->nombre;
         $this->direccion = $granja->direccion;
@@ -111,7 +105,7 @@ class GranjaManager extends Component
         $this->tamano_hectareas = $granja->tamano_hectareas;
         $this->fecha_establecimiento = $granja->fecha_establecimiento;
         $this->gerente = $granja->gerente;
-        $this->selected_specializations = $granja->especializaciones->pluck('id')->toArray();
+        $this->selected_species = $granja->especies->pluck('id')->toArray();
 
         $this->openModal();
     }

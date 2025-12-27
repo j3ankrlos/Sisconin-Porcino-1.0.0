@@ -16,4 +16,9 @@ class EmpresaController extends Controller
     {
         return view('admin.granjas.index');
     }
+
+    public function especies()
+    {
+        return view('admin.especies.index');
+    }
 }
