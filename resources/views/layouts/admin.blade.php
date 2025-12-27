@@ -385,6 +385,12 @@
               <p>Especies</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.razas.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-fingerprint"></i>
+              <p>Razas</p>
+            </a>
+          </li>
           @endcan
         </ul>
       </nav>

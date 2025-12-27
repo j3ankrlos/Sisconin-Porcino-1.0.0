@@ -21,6 +21,8 @@ class RolePermissionSeeder extends Seeder
             'ver movimientos', 'ver reportes', 'ver crear activos',
             'ver empresa', 'editar empresa',
             'ver granjas', 'crear granjas', 'editar granjas', 'eliminar granjas',
+            'ver especies', 'crear especies', 'editar especies', 'eliminar especies',
+            'ver razas', 'crear razas', 'editar razas', 'eliminar razas',
             'ver granjas naves', 'ver secciones' // Permisos extra por si acaso
         ];
 
