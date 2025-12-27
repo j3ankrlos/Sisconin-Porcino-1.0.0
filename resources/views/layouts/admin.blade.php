@@ -440,7 +440,7 @@
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{ route('admin.index') }}">Sisconint-Porcino</a>.</strong>
     Todos los derechos reservados.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Versión</b> 1.3.0
+      <b>Versión</b> 1.3.1
     </div>
   </footer>
 </div>

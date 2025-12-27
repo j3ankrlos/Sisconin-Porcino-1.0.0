@@ -66,7 +66,6 @@
                 <div class="col-12 mt-3">
                     <div class="callout callout-info py-3 shadow-sm bg-light">
                         <h5><i class="fas fa-calendar-alt mr-2 text-info"></i>Configuración de Fecha PIC</h5>
-                        <p class="text-muted small">Sincronización automática entre formato PIC (Vuelta-N° PIC) y Fecha de Calendario.</p>
                         
                         <div class="row items-center">
                             <!-- Campos PIC -->
@@ -114,22 +113,53 @@
                     </div>
                 </div>
 
-                <!-- Ubicación -->
-                <div class="col-md-8 form-group mt-3">
-                    <label>Sección / Galpón (Ubicación)</label>
-                    <select wire:model="seccion_id" class="form-control">
-                        <option value="">Sin Asignar</option>
-                        @foreach($secciones as $s)
-                            <option value="{{ $s->id }}">
-                                {{ $s->nave->granja->nombre }} > {{ $s->nave->nombre }} > {{ $s->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                <!-- UBICACIÓN JERÁRQUICA -->
+                <div class="col-12 mt-3">
+                    <div class="card card-outline card-secondary bg-light shadow-sm">
+                        <div class="card-body">
+                            <h6 class="font-weight-bold mb-3"><i class="fas fa-map-marker-alt mr-2 text-secondary"></i>Ubicación Física</h6>
+                            <div class="row">
+                                <!-- Granja -->
+                                <div class="col-md-3 form-group">
+                                    <label class="small">Granja</label>
+                                    <select wire:model.live="granja_id" class="form-control">
+                                        <option value="">Seleccione Granja</option>
+                                        @foreach($granjas as $g)
+                                            <option value="{{ $g->id }}">{{ $g->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                <div class="col-md-4 form-group mt-3">
-                    <label>Número de Corral</label>
-                    <input type="number" wire:model="corral" class="form-control" placeholder="Ej: 15">
+                                <!-- Nave -->
+                                <div class="col-md-3 form-group">
+                                    <label class="small">Nave / Galpón</label>
+                                    <select wire:model.live="nave_id" class="form-control" {{ empty($naves) ? 'disabled' : '' }}>
+                                        <option value="">Seleccione Nave</option>
+                                        @foreach($naves as $n)
+                                            <option value="{{ $n->id }}">{{ $n->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Sección -->
+                                <div class="col-md-3 form-group">
+                                    <label class="small">Sección</label>
+                                    <select wire:model="seccion_id" class="form-control" {{ empty($secciones) ? 'disabled' : '' }}>
+                                        <option value="">Seleccione Sección</option>
+                                        @foreach($secciones as $s)
+                                            <option value="{{ $s->id }}">{{ $s->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Corral -->
+                                <div class="col-md-3 form-group">
+                                    <label class="small">Número de Corral</label>
+                                    <input type="number" wire:model="corral" class="form-control" placeholder="Ej: 15">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -138,9 +168,9 @@
             <button type="submit" class="btn btn-primary float-right px-4 shadow">
                 <i class="fas fa-save mr-2"></i> Guardar Animal
             </button>
-            <button type="button" class="btn btn-default float-right mr-2 px-4 shadow-sm" wire:click="$dispatch('closeModal')">
+            <a href="{{ route('admin.animals.index') }}" class="btn btn-default float-right mr-2 px-4 shadow-sm">
                 Cancelar
-            </button>
+            </a>
         </div>
     </form>
 </div>
