@@ -15,7 +15,9 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
   <!-- SweetAlert2 -->
@@ -119,15 +121,9 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ route('admin.index') }}" class="nav-link">
+            <a href="{{ route('admin.index') }}" class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Panel de Control</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>Panel de Usuario</p>
             </a>
           </li>
           <li class="nav-header">GESTIÓN POR SITIO</li>
@@ -143,32 +139,44 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @can('ver crear activos')
+              @can('ver reemplazo')
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-plus-circle"></i>
+                  <i class="nav-icon fas fa-sync-alt"></i>
                   <p>
-                    Activo
+                    Reemplazo
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('admin.animals.index') }}" class="nav-link">
+                    <a href="{{ route('admin.animals.index') }}" class="nav-link {{ request()->routeIs('admin.animals.index') ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Lista de activo</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('admin.animals.create') }}" class="nav-link">
+                    <a href="{{ route('admin.animals.create') }}" class="nav-link {{ request()->routeIs('admin.animals.create') ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Crear activo</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('admin.animals.batch-create') }}" class="nav-link">
+                    <a href="{{ route('admin.animals.batch-create') }}" class="nav-link {{ request()->routeIs('admin.animals.batch-create') ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ingreso por Lote</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Cuarentena</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Entradas a Recría</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -181,12 +189,29 @@
               </li>
               @endcan
 
-              @can('ver movimientos')
+              @can('ver reproduccion')
               <li class="nav-item">
-                <a href="{{ route('admin.movements.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-exchange-alt"></i>
-                  <p>Movimientos</p>
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-venus-mars"></i>
+                  <p>
+                    Reproducción
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
                 </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Detección de celos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Montas / IA</p>
+                    </a>
+                  </li>
+                </ul>
               </li>
               @endcan
 
@@ -222,57 +247,15 @@
               </li>
               @endcan
 
-              @can('ver reproduccion')
+              @can('ver movimientos')
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-venus-mars"></i>
-                  <p>
-                    Reproducción
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
+                <a href="{{ route('admin.movements.index') }}" class="nav-link {{ request()->routeIs('admin.movements.index') ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-exchange-alt"></i>
+                  <p>Movimientos</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Detección de celos</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Montas / IA</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
               @endcan
 
-              @can('ver reemplazo')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-sync-alt"></i>
-                  <p>
-                    Reemplazo
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Cuarentena</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Entradas a Recría</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              @endcan
 
               @can('ver mortalidad')
               <li class="nav-item">
@@ -432,13 +415,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('admin.users.index') }}" class="nav-link">
+                <a href="{{ route('admin.users.index') }}" wire:navigate class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lista de usuarios</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('admin.users.create') }}" class="nav-link">
+                <a href="{{ route('admin.users.create') }}" wire:navigate class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Registro de usuarios</p>
                 </a>
@@ -455,13 +438,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('admin.roles.index') }}" class="nav-link">
+                <a href="{{ route('admin.roles.index') }}" wire:navigate class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lista de roles</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('admin.roles.create') }}" class="nav-link">
+                <a href="{{ route('admin.roles.create') }}" wire:navigate class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Crear rol</p>
                 </a>
@@ -472,25 +455,25 @@
           @can('ver empresa')
           <li class="nav-header">CONFIGURACIÓN</li>
           <li class="nav-item">
-            <a href="{{ route('admin.empresa.index') }}" class="nav-link">
+            <a href="{{ route('admin.empresa.index') }}" wire:navigate class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
               <p>Empresa Principal</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.granjas.index') }}" class="nav-link">
+            <a href="{{ route('admin.granjas.index') }}" wire:navigate class="nav-link">
               <i class="nav-icon fas fa-map-marked-alt"></i>
               <p>Granjas / Sucursales</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.especies.index') }}" class="nav-link">
+            <a href="{{ route('admin.especies.index') }}" wire:navigate class="nav-link">
               <i class="nav-icon fas fa-paw"></i>
               <p>Especies</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.razas.index') }}" class="nav-link">
+            <a href="{{ route('admin.razas.index') }}" wire:navigate class="nav-link">
               <i class="nav-icon fas fa-fingerprint"></i>
               <p>Razas</p>
             </a>

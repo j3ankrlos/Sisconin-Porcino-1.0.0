@@ -28,6 +28,7 @@ class UbicacionesSeeder extends Seeder
             ['Sitio I', 'EST', 'G2', 'A'], ['Sitio I', 'EST', 'G2', 'B'], ['Sitio I', 'EST', 'G2', 'C'], ['Sitio I', 'EST', 'G2', 'D'], ['Sitio I', 'EST', 'G2', 'E'], ['Sitio I', 'EST', 'G2', 'F'],
             ['Sitio I', 'EST', 'G3', 'A'], ['Sitio I', 'EST', 'G3', 'B'], ['Sitio I', 'EST', 'G3', 'C'], ['Sitio I', 'EST', 'G3', 'D'], ['Sitio I', 'EST', 'G3', 'E'], ['Sitio I', 'EST', 'G3', 'F'],
             ['Sitio I', 'EST', 'G4', 'A'], ['Sitio I', 'EST', 'G4', 'B'], ['Sitio I', 'EST', 'G4', 'C'], ['Sitio I', 'EST', 'G4', 'D'], ['Sitio I', 'EST', 'G4', 'E'], ['Sitio I', 'EST', 'G4', 'F'],
+            ['Sitio I', 'EST', 'CUARENTENA', 'A'], ['Sitio I', 'EST', 'CUARENTENA', 'B'], ['Sitio I', 'EST', 'CUARENTENA', 'C'], ['Sitio I', 'EST', 'CUARENTENA', 'D'],
             ['Sitio I', 'EST', 'LA', 'C'], ['Sitio I', 'EST', 'LB', 'C'], ['Sitio I', 'EST', 'MP1', 'C'], ['Sitio I', 'EST', 'PUB1', 'C'],
             ['Sitio I', 'EST', 'M1', 'S1'], ['Sitio I', 'EST', 'M1', 'S2'], ['Sitio I', 'EST', 'M2', 'S9'], ['Sitio I', 'EST', 'M3', 'S18'],
 
