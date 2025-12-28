@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'granja_id',
+        'sitio_id',
     ];
 
     /**
@@ -45,5 +47,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function granja()
+    {
+        return $this->belongsTo(Granja::class);
+    }
+
+    public function sitio()
+    {
+        return $this->belongsTo(Sitio::class);
     }
 }

@@ -21,6 +21,7 @@ class Animal extends Model
         'fecha_nacimiento',
         'padre_id',
         'madre_id',
+        'lote',
         'estado',
         'fase_reproductiva',
         'peso_nacimiento',
@@ -68,5 +69,10 @@ class Animal extends Model
     public function hijos()
     {
         return $this->hasMany(Animal::class, 'padre_id')->orWhere('madre_id', $this->id);
+    }
+
+    public function eventos()
+    {
+        return $this->hasMany(AnimalEvento::class)->orderBy('fecha', 'desc')->orderBy('created_at', 'desc');
     }
 }

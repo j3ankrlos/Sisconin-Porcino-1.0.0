@@ -12,13 +12,18 @@ class AdminUserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.users.index', compact('users'));
+        $granjas = \App\Models\Granja::all();
+        $sitios = \App\Models\Sitio::all();
+        return view('admin.users.index', compact('users', 'granjas', 'sitios'));
     }
 
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        $roles = Role::with('permissions')->get();
+        $permissions = \Spatie\Permission\Models\Permission::all();
+        $granjas = \App\Models\Granja::all();
+        $sitios = \App\Models\Sitio::all();
+        return view('admin.users.create', compact('roles', 'permissions', 'granjas', 'sitios'));
     }
 
     public function store(Request $request)
@@ -28,15 +33,33 @@ class AdminUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|string|exists:roles,name',
+            'granja_id' => 'nullable|exists:granjas,id',
+            'sitio_id' => 'nullable|exists:sitios,id',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,name',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'granja_id' => $request->granja_id,
+            'sitio_id' => $request->sitio_id,
         ]);
 
         $user->assignRole($request->role);
+        
+        if ($request->has('permissions')) {
+            $user->syncPermissions($request->permissions);
+        }
+
+        // Log de Auditoría
+        \App\Models\PermissionLog::create([
+            'causer_id' => auth()->id() ?? $user->id, // Fallback si es autoregistro
+            'user_id' => $user->id,
+            'action' => 'create',
+            'permissions_after' => $user->getPermissionNames()
+        ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Usuario creado exitosamente.');
     }
@@ -48,8 +71,12 @@ class AdminUserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $roles = Role::with('permissions')->get();
+        $permissions = \Spatie\Permission\Models\Permission::all();
+        $granjas = \App\Models\Granja::all();
+        $sitios = \App\Models\Sitio::all();
+        $userPermissions = $user->getPermissionNames()->toArray();
+        return view('admin.users.edit', compact('user', 'roles', 'permissions', 'granjas', 'sitios', 'userPermissions'));
     }
 
     public function update(Request $request, User $user)
@@ -58,11 +85,26 @@ class AdminUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|string|exists:roles,name',
+            'granja_id' => 'nullable|exists:granjas,id',
+            'sitio_id' => 'nullable|exists:sitios,id',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,name',
         ]);
 
-        $user->update($request->only(['name', 'email']));
+        $user->update($request->only(['name', 'email', 'granja_id', 'sitio_id']));
 
         $user->syncRoles($request->role);
+        
+        // Sincronizar permisos directos
+        $user->syncPermissions($request->permissions ?? []);
+
+        // Log de Auditoría
+        \App\Models\PermissionLog::create([
+            'causer_id' => auth()->id(),
+            'user_id' => $user->id,
+            'action' => 'update',
+            'permissions_after' => $user->getPermissionNames()
+        ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado exitosamente.');
     }

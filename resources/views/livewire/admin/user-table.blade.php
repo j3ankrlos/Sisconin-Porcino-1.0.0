@@ -17,6 +17,8 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th>Sucursal</th>
+                    <th>Sitio</th>
                     <th>Rol</th>
                     <th>Fecha de Registro</th>
                     <th>Acciones</th>
@@ -28,6 +30,8 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->granja->nombre ?? 'N/A' }}</td>
+                    <td>{{ $user->sitio->nombre ?? 'N/A' }}</td>
                     <td>{{ $user->getRoleNames()->first() ?? 'Sin Rol' }}</td>
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                     <td>

@@ -30,4 +30,9 @@ class Granja extends Model
     {
         return $this->hasMany(Nave::class);
     }
+
+    public function sitios()
+    {
+        return $this->hasMany(Sitio::class);
+    }
 }

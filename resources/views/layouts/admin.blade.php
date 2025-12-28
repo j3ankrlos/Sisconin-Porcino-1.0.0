@@ -130,194 +130,297 @@
               <p>Panel de Usuario</p>
             </a>
           </li>
-          <li class="nav-header">GESTIÓN PORCINA</li>
-          @can('ver crear activos')
+          <li class="nav-header">GESTIÓN POR SITIO</li>
+          
+          <!-- Sitio I -->
+          @can('ver sitio 1')
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-plus-circle"></i>
+              <i class="nav-icon fas fa-map-marker-alt text-primary"></i>
               <p>
-                Activo
+                Sitio I
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @can('ver crear activos')
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-plus-circle"></i>
+                  <p>
+                    Activo
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('admin.animals.index') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Lista de activo</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.animals.create') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Crear activo</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.animals.batch-create') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ingreso por Lote</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Rearetear</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
+
+              @can('ver movimientos')
+              <li class="nav-item">
+                <a href="{{ route('admin.movements.index') }}" class="nav-link">
+                  <i class="nav-icon fas fa-exchange-alt"></i>
+                  <p>Movimientos</p>
+                </a>
+              </li>
+              @endcan
+
+              @can('ver maternidad')
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-baby"></i>
+                  <p>
+                    Maternidad
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Partos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Cierre de Salas</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Destetes</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
+
+              @can('ver reproduccion')
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-venus-mars"></i>
+                  <p>
+                    Reproducción
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Detección de celos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Montas / IA</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
+
+              @can('ver reemplazo')
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-sync-alt"></i>
+                  <p>
+                    Reemplazo
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Cuarentena</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Entradas a Recría</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
+
+              @can('ver mortalidad')
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-skull"></i>
+                  <p>
+                    Mortalidad
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Mortalidad MPD</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Mortalidad Activos</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
+
+              @can('ver reportes')
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-chart-bar"></i>
+                  <p>
+                    Reportes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Montas</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Partos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Hato Reproductivo</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Hato Reemplazo</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ingresos a Maternidad</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Mortalidad MPD</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Hembras Programadas</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
+            </ul>
+          </li>
+          @endcan
+
+          <!-- Sitio II -->
+          @can('ver sitio 2')
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-map-marker-alt text-success"></i>
+              <p>
+                Sitio II
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('admin.animals.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lista de activo</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.animals.create') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Crear activo</p>
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-info"></i>
+                  <p>Opción Placeholder</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Rearetear</p>
+                  <i class="nav-icon fas fa-folder"></i>
+                  <p>
+                    Submenú Placeholder
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Item de prueba</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          @endcan
+
+          <!-- Sitio III -->
+          @can('ver sitio 3')
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-map-marker-alt text-warning"></i>
+              <p>
+                Sitio III
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon text-secondary"></i>
+                  <p>Próximamente</p>
                 </a>
               </li>
             </ul>
           </li>
           @endcan
 
-          @can('ver movimientos')
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-exchange-alt"></i>
-              <p>Movimientos</p>
-            </a>
-          </li>
-          @endcan
 
-          @can('ver maternidad')
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-baby"></i>
-              <p>
-                Maternidad
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Partos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cierre de Salas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mortalidad MPD</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Destetes</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          @endcan
 
-          @can('ver reproduccion')
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-venus-mars"></i>
-              <p>
-                Reproducción
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Detección de celos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Montas / IA</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          @endcan
-
-          @can('ver reemplazo')
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-sync-alt"></i>
-              <p>
-                Reemplazo
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cuarentena</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Entradas a Recría</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          @endcan
-
-          @can('ver reportes')
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-bar"></i>
-              <p>
-                Reportes
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Montas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Partos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hato Reproductivo</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hato Reemplazo</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ingresos a Maternidad</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mortalidad MPD</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hembras Programadas</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          @endcan
-
+          @can('ver usuarios')
           <li class="nav-header">ADMINISTRACIÓN</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -365,6 +468,7 @@
               </li>
             </ul>
           </li>
+          @endcan
           @can('ver empresa')
           <li class="nav-header">CONFIGURACIÓN</li>
           <li class="nav-item">
@@ -440,7 +544,7 @@
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{ route('admin.index') }}">Sisconint-Porcino</a>.</strong>
     Todos los derechos reservados.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Versión</b> 1.3.1
+      <b>Versión</b> 1.4.0
     </div>
   </footer>
 </div>
@@ -477,5 +581,6 @@ Swal.fire({
 });
 </script>
 @endif
+@yield('scripts')
 </body>
 </html>

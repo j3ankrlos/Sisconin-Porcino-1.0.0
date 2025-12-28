@@ -25,6 +25,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     // Gestión de Animales
     Route::get('animals', [AnimalController::class, 'index'])->name('animals.index');
     Route::get('animals/create', [AnimalController::class, 'create'])->name('animals.create');
+    Route::get('animals/batch-create', [AnimalController::class, 'batchCreate'])->name('animals.batch-create');
+    Route::get('movements', [AnimalController::class, 'movements'])->name('movements.index');
 
     // Configuración de Empresa y Granjas
     Route::get('empresa', [EmpresaController::class, 'index'])->name('empresa.index');
