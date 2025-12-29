@@ -6,15 +6,7 @@
                 <div class="col-md-3">
                     <input wire:model.live="search" type="text" class="form-control form-control-sm" placeholder="ID o Oreja...">
                 </div>
-                <div class="col-md-2">
-                    <select wire:model.live="especie_id" class="form-control form-control-sm">
-                        <option value="">Todas las Especies</option>
-                        @foreach($especies as $e)
-                            <option value="{{ $e->id }}">{{ $e->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <select wire:model.live="raza_id" class="form-control form-control-sm" {{ empty($razas) ? 'disabled' : '' }}>
                         <option value="">Todas las Razas</option>
                         @foreach($razas as $r)
@@ -66,7 +58,6 @@
             <thead>
                 <tr>
                     <th>ID Animal</th>
-                    <th>Especie</th>
                     <th>Raza</th>
                     <th>Sexo</th>
                     <th>Nacimiento</th>
@@ -85,7 +76,6 @@
                         <br><small class="text-muted">ID Oreja: {{ $animal->id_oreja }}</small>
                         @endif
                     </td>
-                    <td>{{ $animal->especie->nombre }}</td>
                     <td>{{ $animal->raza->nombre }}</td>
                     <td>
                         @if($animal->sexo == 'M')
@@ -129,7 +119,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="9" class="text-center">No se encontraron animales.</td>
+                    <td colspan="8" class="text-center">No se encontraron animales.</td>
                 </tr>
                 @endforelse
             </tbody>

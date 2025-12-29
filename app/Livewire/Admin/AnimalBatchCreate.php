@@ -17,7 +17,7 @@ class AnimalBatchCreate extends Component
     // Parámetros del Formulario
     public $lote;
     public $raza_id;
-    public $origen = 'LA'; 
+    public $origen; 
     public $sexo = 'F';
     public $nave_id;
     public $seccion_id;
@@ -25,6 +25,7 @@ class AnimalBatchCreate extends Component
     public $peso;
     public $cantidad = 1;
     public $id_inicio; // ID de inicio manual/automático
+    public $puedo_editar_id = false; // Control de bloqueo del campo ID
     
     // Información de Secuencia
     public $ultimo_id_sistema = 0;
@@ -49,10 +50,7 @@ class AnimalBatchCreate extends Component
 
     public function mount()
     {
-        $f1 = Raza::where('nombre', 'F1')->first();
-        if ($f1) {
-            $this->raza_id = $f1->id;
-        }
+        // No pre-cargar genética por defecto
         $this->actualizarInformacionSecuencia();
     }
 
@@ -121,6 +119,14 @@ class AnimalBatchCreate extends Component
     {
         $this->seccion_id = $id;
         $this->search_seccion = $nombre;
+    }
+
+    /**
+     * Alterna el bloqueo del campo ID Inicial.
+     */
+    public function toggleEditarId()
+    {
+        $this->puedo_editar_id = !$this->puedo_editar_id;
     }
 
     /**

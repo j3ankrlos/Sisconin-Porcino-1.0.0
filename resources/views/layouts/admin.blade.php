@@ -54,7 +54,21 @@
     }
   </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini" 
+      x-data="{ 
+        sidebarOpen: window.innerWidth > 992,
+        openMenus: {
+            sitio1: {{ request()->is('admin/animals*', 'admin/movements*') ? 'true' : 'false' }},
+            reemplazo: {{ request()->is('admin/animals*') ? 'true' : 'false' }},
+            reproduccion: false,
+            maternidad: false,
+            mortalidad: false,
+            reportes: false,
+            admin: {{ request()->is('admin/users*', 'admin/roles*') ? 'true' : 'false' }},
+            config: {{ request()->is('admin/empresa*', 'admin/granjas*', 'admin/especies*', 'admin/razas*') ? 'true' : 'false' }}
+        }
+      }"
+      :class="{ 'sidebar-collapse': !sidebarOpen, 'sidebar-open': sidebarOpen && window.innerWidth <= 992 }">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -62,7 +76,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" href="#" role="button" @click.prevent="sidebarOpen = !sidebarOpen"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
@@ -119,9 +133,9 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ route('admin.index') }}" class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
+            <a href="{{ route('admin.index') }}" wire:navigate class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Panel de Control</p>
             </a>
@@ -130,39 +144,39 @@
           
           <!-- Sitio I -->
           @can('ver sitio 1')
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item" :class="{ 'menu-open': openMenus.sitio1 }">
+            <a href="#" class="nav-link {{ request()->is('admin/animals*', 'admin/movements*') ? 'active' : '' }}" @click.prevent="openMenus.sitio1 = !openMenus.sitio1">
               <i class="nav-icon fas fa-map-marker-alt text-primary"></i>
               <p>
                 Sitio I
-                <i class="right fas fa-angle-left"></i>
+                <i class="right fas fa-angle-left" :style="openMenus.sitio1 ? 'transform: rotate(-90deg)' : ''"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" x-show="openMenus.sitio1" x-collapse style="display: none;">
               @can('ver reemplazo')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item" :class="{ 'menu-open': openMenus.reemplazo }">
+                <a href="#" class="nav-link {{ request()->is('admin/animals*') ? 'active' : '' }}" @click.prevent="openMenus.reemplazo = !openMenus.reemplazo">
                   <i class="nav-icon fas fa-sync-alt"></i>
                   <p>
                     Reemplazo
-                    <i class="right fas fa-angle-left"></i>
+                    <i class="right fas fa-angle-left" :style="openMenus.reemplazo ? 'transform: rotate(-90deg)' : ''"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" x-show="openMenus.reemplazo" x-collapse style="display: none;">
                   <li class="nav-item">
-                    <a href="{{ route('admin.animals.index') }}" class="nav-link {{ request()->routeIs('admin.animals.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.animals.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.animals.index') ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Lista de activo</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('admin.animals.create') }}" class="nav-link {{ request()->routeIs('admin.animals.create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.animals.create') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.animals.create') ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Crear activo</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('admin.animals.batch-create') }}" class="nav-link {{ request()->routeIs('admin.animals.batch-create') ? 'active' : '' }}">
+                    <a href="{{ route('admin.animals.batch-create') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.animals.batch-create') ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ingreso por Lote</p>
                     </a>
@@ -190,15 +204,15 @@
               @endcan
 
               @can('ver reproduccion')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item" :class="{ 'menu-open': openMenus.reproduccion }">
+                <a href="#" class="nav-link" @click.prevent="openMenus.reproduccion = !openMenus.reproduccion">
                   <i class="nav-icon fas fa-venus-mars"></i>
                   <p>
                     Reproducción
-                    <i class="right fas fa-angle-left"></i>
+                    <i class="right fas fa-angle-left" :style="openMenus.reproduccion ? 'transform: rotate(-90deg)' : ''"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" x-show="openMenus.reproduccion" x-collapse style="display: none;">
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -216,15 +230,15 @@
               @endcan
 
               @can('ver maternidad')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item" :class="{ 'menu-open': openMenus.maternidad }">
+                <a href="#" class="nav-link" @click.prevent="openMenus.maternidad = !openMenus.maternidad">
                   <i class="nav-icon fas fa-baby"></i>
                   <p>
                     Maternidad
-                    <i class="right fas fa-angle-left"></i>
+                    <i class="right fas fa-angle-left" :style="openMenus.maternidad ? 'transform: rotate(-90deg)' : ''"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" x-show="openMenus.maternidad" x-collapse style="display: none;">
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -249,7 +263,7 @@
 
               @can('ver movimientos')
               <li class="nav-item">
-                <a href="{{ route('admin.movements.index') }}" class="nav-link {{ request()->routeIs('admin.movements.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.movements.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.movements.index') ? 'active' : '' }}">
                   <i class="nav-icon fas fa-exchange-alt"></i>
                   <p>Movimientos</p>
                 </a>
@@ -258,15 +272,15 @@
 
 
               @can('ver mortalidad')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item" :class="{ 'menu-open': openMenus.mortalidad }">
+                <a href="#" class="nav-link" @click.prevent="openMenus.mortalidad = !openMenus.mortalidad">
                   <i class="nav-icon fas fa-skull"></i>
                   <p>
                     Mortalidad
-                    <i class="right fas fa-angle-left"></i>
+                    <i class="right fas fa-angle-left" :style="openMenus.mortalidad ? 'transform: rotate(-90deg)' : ''"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" x-show="openMenus.mortalidad" x-collapse style="display: none;">
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -284,15 +298,15 @@
               @endcan
 
               @can('ver reportes')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item" :class="{ 'menu-open': openMenus.reportes }">
+                <a href="#" class="nav-link" @click.prevent="openMenus.reportes = !openMenus.reportes">
                   <i class="nav-icon fas fa-chart-bar"></i>
                   <p>
                     Reportes
-                    <i class="right fas fa-angle-left"></i>
+                    <i class="right fas fa-angle-left" :style="openMenus.reportes ? 'transform: rotate(-90deg)' : ''"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" x-show="openMenus.reportes" x-collapse style="display: none;">
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
@@ -405,46 +419,46 @@
 
           @can('ver usuarios')
           <li class="nav-header">ADMINISTRACIÓN</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item" :class="{ 'menu-open': openMenus.admin }">
+            <a href="#" class="nav-link {{ request()->is('admin/users*', 'admin/roles*') ? 'active' : '' }}" @click.prevent="openMenus.admin = !openMenus.admin">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Usuarios
-                <i class="right fas fa-angle-left"></i>
+                <i class="right fas fa-angle-left" :style="openMenus.admin ? 'transform: rotate(-90deg)' : ''"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" x-show="openMenus.admin" x-collapse style="display: none;">
               <li class="nav-item">
-                <a href="{{ route('admin.users.index') }}" wire:navigate class="nav-link">
+                <a href="{{ route('admin.users.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lista de usuarios</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('admin.users.create') }}" wire:navigate class="nav-link">
+                <a href="{{ route('admin.users.create') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Registro de usuarios</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item" :class="{ 'menu-open': openMenus.admin }">
+            <a href="#" class="nav-link {{ request()->is('admin/roles*') ? 'active' : '' }}" @click.prevent="openMenus.admin = !openMenus.admin">
               <i class="nav-icon fas fa-user-shield"></i>
               <p>
                 Roles y Permisos
-                <i class="right fas fa-angle-left"></i>
+                <i class="right fas fa-angle-left" :style="openMenus.admin ? 'transform: rotate(-90deg)' : ''"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" x-show="openMenus.admin" x-collapse style="display: none;">
               <li class="nav-item">
-                <a href="{{ route('admin.roles.index') }}" wire:navigate class="nav-link">
+                <a href="{{ route('admin.roles.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lista de roles</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('admin.roles.create') }}" wire:navigate class="nav-link">
+                <a href="{{ route('admin.roles.create') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.roles.create') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Crear rol</p>
                 </a>
@@ -454,29 +468,40 @@
           @endcan
           @can('ver empresa')
           <li class="nav-header">CONFIGURACIÓN</li>
-          <li class="nav-item">
-            <a href="{{ route('admin.empresa.index') }}" wire:navigate class="nav-link">
+          <li class="nav-item" :class="{ 'menu-open': openMenus.config }">
+            <a href="#" class="nav-link {{ request()->is('admin/empresa*', 'admin/granjas*', 'admin/especies*', 'admin/razas*') ? 'active' : '' }}" @click.prevent="openMenus.config = !openMenus.config">
               <i class="nav-icon fas fa-cogs"></i>
-              <p>Empresa Principal</p>
+              <p>
+                Ajustes Sistema
+                <i class="right fas fa-angle-left" :style="openMenus.config ? 'transform: rotate(-90deg)' : ''"></i>
+              </p>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.granjas.index') }}" wire:navigate class="nav-link">
-              <i class="nav-icon fas fa-map-marked-alt"></i>
-              <p>Granjas / Sucursales</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.especies.index') }}" wire:navigate class="nav-link">
-              <i class="nav-icon fas fa-paw"></i>
-              <p>Especies</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.razas.index') }}" wire:navigate class="nav-link">
-              <i class="nav-icon fas fa-fingerprint"></i>
-              <p>Razas</p>
-            </a>
+            <ul class="nav nav-treeview" x-show="openMenus.config" x-collapse style="display: none;">
+              <li class="nav-item">
+                <a href="{{ route('admin.empresa.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.empresa.index') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Empresa Principal</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.granjas.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.granjas.index') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Granjas / Sucursales</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.especies.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.especies.index') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Especies</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.razas.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.razas.index') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Razas</p>
+                </a>
+              </li>
+            </ul>
           </li>
           @endcan
         </ul>
@@ -538,8 +563,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
+<!-- AdminLTE App (Sólo cargamos el JS, pero ya no maneja los menús) -->
+<script src="{{ asset('adminlte/js/adminlte.min.js') }}" data-navigate-once></script>
+
+<script>
+    // Sincronizar estados de Alpine al navegar
+    document.addEventListener('livewire:navigated', () => {
+        // Podríamos forzar actualizaciones de estado aquí si fuera necesario
+    });
+</script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @livewireStyles

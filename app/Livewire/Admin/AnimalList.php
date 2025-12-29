@@ -13,7 +13,7 @@ class AnimalList extends Component
     use WithPagination;
 
     public $search = '';
-    public $especie_id = '';
+    public $especie_id = 1; // Default to Porcino
     public $raza_id = '';
     public $sexo = '';
     public $estado = '';
@@ -54,15 +54,10 @@ class AnimalList extends Component
 
     public function render()
     {
-        $especies = \App\Models\Especie::orderBy('nombre')->get();
-        $razas = [];
-        if ($this->especie_id) {
-            $razas = \App\Models\Raza::where('especie_id', $this->especie_id)->orderBy('nombre')->get();
-        }
-
+        $razas = \App\Models\Raza::where('especie_id', $this->especie_id)->orderBy('nombre')->get();
         $animals = $this->getFilteredAnimalsQuery()->paginate(10);
 
-        return view('livewire.admin.animal-list', compact('animals', 'especies', 'razas'));
+        return view('livewire.admin.animal-list', compact('animals', 'razas'));
     }
 
     public function exportExcel()

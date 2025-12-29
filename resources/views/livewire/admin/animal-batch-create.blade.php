@@ -30,10 +30,22 @@
                             <label class="text-xs text-primary font-weight-bold uppercase mb-1">
                                 <i class="fas fa-fingerprint mr-1"></i>ID Inicial del Correlativo
                             </label>
-                            <input type="number" wire:model="id_inicio" class="form-control form-control-sm font-weight-bold border-primary shadow-sm" 
-                                   placeholder="{{ $ultimo_id_sistema > 0 ? 'Siguiente sugerido: '.($ultimo_id_sistema+1) : 'Ej: 98764' }}">
-                            @if($ultimo_id_sistema == 0)
-                                <small class="text-info mt-1 d-block"><i class="fas fa-info-circle mr-1"></i>Sistema sin historial. Ingrese el número inicial.</small>
+                            <div class="input-group input-group-sm">
+                                <input type="number" wire:model="id_inicio" 
+                                       class="form-control font-weight-bold border-primary shadow-sm {{ !$puedo_editar_id ? 'bg-light' : '' }}" 
+                                       {{ !$puedo_editar_id ? 'readonly' : '' }}
+                                       placeholder="{{ $ultimo_id_sistema > 0 ? 'Siguiente sugerido: '.($ultimo_id_sistema+1) : 'Ej: 98764' }}">
+                                <div class="input-group-append">
+                                    <button class="btn {{ $puedo_editar_id ? 'btn-primary' : 'btn-outline-primary' }} shadow-sm" 
+                                            type="button" 
+                                            wire:click="toggleEditarId"
+                                            title="{{ $puedo_editar_id ? 'Bloquear campo' : 'Habilitar edición manual' }}">
+                                        <i class="fas {{ $puedo_editar_id ? 'fa-lock-open' : 'fa-pencil-alt' }}"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            @if($ultimo_id_sistema == 0 && !$puedo_editar_id)
+                                <small class="text-info mt-1 d-block"><i class="fas fa-info-circle mr-1"></i>Sistema sin historial. Pulse el lápiz para ingresar el número inicial.</small>
                             @endif
                         </div>
 
