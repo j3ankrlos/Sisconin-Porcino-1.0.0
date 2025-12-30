@@ -22,8 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'granja_id',
-        'sitio_id',
+        'sucursal_id',
+        'unidad_id',
     ];
 
     /**
@@ -49,13 +49,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function granja()
+    public function sucursal()
     {
-        return $this->belongsTo(Granja::class);
+        return $this->belongsTo(Sucursal::class);
     }
 
-    public function sitio()
+    public function unidad()
     {
-        return $this->belongsTo(Sitio::class);
+        return $this->belongsTo(Unidad::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

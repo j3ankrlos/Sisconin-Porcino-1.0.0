@@ -4,22 +4,23 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Granja;
-use App\Models\Empresa;
+use App\Models\Area;
+use App\Models\Unidad;
 use App\Models\Especie;
 
-class GranjaManager extends Component
+class AreaManager extends Component
 {
     use WithPagination;
 
     public $search = '';
     public $isOpen = false;
-    public $granja_id, $nombre, $direccion, $latitud, $longitud, $tamano_hectareas, $fecha_establecimiento, $gerente;
+    public $area_id, $unidad_id, $nombre, $direccion, $latitud, $longitud, $tamano_hectareas, $fecha_establecimiento, $gerente;
     public $selected_species = [];
 
     protected $paginationTheme = 'bootstrap';
 
     protected $rules = [
+        'unidad_id' => 'required|exists:unidades,id',
         'nombre' => 'required|string|max:255',
         'direccion' => 'nullable|string|max:255',
         'latitud' => 'nullable|numeric',
@@ -31,12 +32,13 @@ class GranjaManager extends Component
 
     public function render()
     {
-        $granjas = Granja::with('especies')
+        $areas = Area::with(['especies', 'unidad.sucursal'])
             ->where('nombre', 'like', '%' . $this->search . '%')
             ->paginate(10);
+        $unidades = Unidad::with('sucursal')->get();
         $especies = Especie::orderBy('nombre')->get();
 
-        return view('livewire.admin.granja-manager', compact('granjas', 'especies'));
+        return view('livewire.admin.area-manager', compact('areas', 'unidades', 'especies'));
     }
 
     public function create()
@@ -57,7 +59,8 @@ class GranjaManager extends Component
 
     private function resetInputFields()
     {
-        $this->granja_id = null;
+        $this->area_id = null;
+        $this->unidad_id = null;
         $this->nombre = '';
         $this->direccion = '';
         $this->latitud = '';
@@ -73,10 +76,8 @@ class GranjaManager extends Component
     {
         $this->validate();
 
-        $empresa = Empresa::first(); 
-
-        $granja = Granja::updateOrCreate(['id' => $this->granja_id], [
-            'empresa_id' => $empresa->id,
+        $area = Area::updateOrCreate(['id' => $this->area_id], [
+            'unidad_id' => $this->unidad_id,
             'nombre' => $this->nombre,
             'direccion' => $this->direccion,
             'latitud' => $this->latitud ?: null,
@@ -86,9 +87,9 @@ class GranjaManager extends Component
             'gerente' => $this->gerente,
         ]);
 
-        $granja->especies()->sync($this->selected_species);
+        $area->especies()->sync($this->selected_species);
 
-        session()->flash('success', $this->granja_id ? 'Sucursal actualizada con éxito.' : 'Sucursal creada con éxito.');
+        session()->flash('success', $this->area_id ? 'Área actualizada con éxito.' : 'Área creada con éxito.');
 
         $this->closeModal();
         $this->resetInputFields();
@@ -96,23 +97,24 @@ class GranjaManager extends Component
 
     public function edit($id)
     {
-        $granja = Granja::with('especies')->findOrFail($id);
-        $this->granja_id = $id;
-        $this->nombre = $granja->nombre;
-        $this->direccion = $granja->direccion;
-        $this->latitud = $granja->latitud;
-        $this->longitud = $granja->longitud;
-        $this->tamano_hectareas = $granja->tamano_hectareas;
-        $this->fecha_establecimiento = $granja->fecha_establecimiento;
-        $this->gerente = $granja->gerente;
-        $this->selected_species = $granja->especies->pluck('id')->toArray();
+        $area = Area::with('especies')->findOrFail($id);
+        $this->area_id = $id;
+        $this->unidad_id = $area->unidad_id;
+        $this->nombre = $area->nombre;
+        $this->direccion = $area->direccion;
+        $this->latitud = $area->latitud;
+        $this->longitud = $area->longitud;
+        $this->tamano_hectareas = $area->tamano_hectareas;
+        $this->fecha_establecimiento = $area->fecha_establecimiento;
+        $this->gerente = $area->gerente;
+        $this->selected_species = $area->especies->pluck('id')->toArray();
 
         $this->openModal();
     }
 
     public function delete($id)
     {
-        Granja::find($id)->delete();
-        session()->flash('success', 'Sucursal eliminada con éxito.');
+        Area::find($id)->delete();
+        session()->flash('success', 'Área eliminada con éxito.');
     }
 }

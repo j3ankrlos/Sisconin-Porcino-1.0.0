@@ -30,7 +30,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     // Configuración de Empresa y Granjas
     Route::get('empresa', [EmpresaController::class, 'index'])->name('empresa.index');
-    Route::get('granjas', [EmpresaController::class, 'granjas'])->name('granjas.index');
+    Route::get('sucursales', [EmpresaController::class, 'sucursales'])->name('sucursales.index');
     Route::get('especies', [EmpresaController::class, 'especies'])->name('especies.index');
     Route::get('razas', [EmpresaController::class, 'razas'])->name('razas.index');
 });

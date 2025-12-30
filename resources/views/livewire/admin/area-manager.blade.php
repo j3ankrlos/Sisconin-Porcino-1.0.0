@@ -1,10 +1,10 @@
 <div>
-    <div class="card card-outline card-success">
+    <div class="card card-outline card-info">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-map-marked-alt mr-2"></i> Listado de Sucursales (Granjas)</h3>
+            <h3 class="card-title"><i class="fas fa-layer-group mr-2"></i> Listado de Áreas</h3>
             <div class="card-tools">
-                <button wire:click="create()" class="btn btn-sm btn-success">
-                    <i class="fas fa-plus"></i> Nueva Sucursal
+                <button wire:click="create()" class="btn btn-sm btn-info">
+                    <i class="fas fa-plus"></i> Nueva Área
                 </button>
             </div>
         </div>
@@ -20,44 +20,48 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
+                        <th>Unidad / Sucursal</th>
                         <th>Ubicación</th>
-                        <th>Hectáreas</th>
                         <th>Gerente</th>
-                        <th>Especies en Producción</th>
+                        <th>Especies</th>
                         <th style="width: 150px">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($granjas as $granja)
+                    @forelse($areas as $area)
                         <tr>
-                            <td>{{ $granja->nombre }}</td>
+                            <td>{{ $area->nombre }}</td>
                             <td>
-                                {{ $granja->direccion }} <br>
-                                @if($granja->latitud && $granja->longitud)
-                                    <small class="text-info"><i class="fas fa-location-arrow"></i> {{ $granja->latitud }}, {{ $granja->longitud }}</small>
+                                <span class="badge badge-secondary">{{ $area->unidad->nombre ?? 'N/A' }}</span>
+                                <br>
+                                <small class="text-muted">{{ $area->unidad->sucursal->nombre ?? '' }}</small>
+                            </td>
+                            <td>
+                                {{ $area->direccion }} <br>
+                                @if($area->latitud && $area->longitud)
+                                    <small class="text-info"><i class="fas fa-location-arrow"></i> {{ $area->latitud }}, {{ $area->longitud }}</small>
                                 @endif
                             </td>
-                            <td>{{ $granja->tamano_hectareas }} ha</td>
-                            <td>{{ $granja->gerente }}</td>
+                            <td>{{ $area->gerente }}</td>
                             <td>
-                                @foreach($granja->especies as $esp)
+                                @foreach($area->especies as $esp)
                                     <span class="badge badge-info">{{ $esp->nombre }}</span>
                                 @endforeach
                             </td>
                             <td>
-                                <button wire:click="edit({{ $granja->id }})" class="btn btn-xs btn-warning"><i class="fas fa-edit"></i></button>
-                                <button wire:click="delete({{ $granja->id }})" class="btn btn-xs btn-danger" onclick="confirm('¿Está seguro?') || event.stopImmediatePropagation()"><i class="fas fa-trash"></i></button>
+                                <button wire:click="edit({{ $area->id }})" class="btn btn-xs btn-warning"><i class="fas fa-edit"></i></button>
+                                <button wire:click="delete({{ $area->id }})" class="btn btn-xs btn-danger" onclick="confirm('¿Está seguro?') || event.stopImmediatePropagation()"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">No hay sucursales registradas.</td>
+                            <td colspan="6" class="text-center">No hay áreas registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
             <div class="mt-3">
-                {{ $granjas->links() }}
+                {{ $areas->links() }}
             </div>
         </div>
     </div>
@@ -67,8 +71,8 @@
     <div class="modal show d-block" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title font-weight-bold">{{ $granja_id ? 'Editar Sucursal' : 'Nueva Sucursal' }}</h5>
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title font-weight-bold text-white">{{ $area_id ? 'Editar Área' : 'Nueva Área' }}</h5>
                     <button type="button" wire:click="closeModal()" class="close text-white" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -77,20 +81,30 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label>Nombre de la Granja <span class="text-danger">*</span></label>
-                                <input type="text" wire:model="nombre" class="form-control" placeholder="Ej: Granja El Rosal">
-                                @error('nombre') <span class="text-danger small">{{ $message }}</span> @enderror
+                                <label>Unidad de Pertenencia <span class="text-danger">*</span></label>
+                                <select wire:model="unidad_id" class="form-control">
+                                    <option value="">Seleccionar unidad</option>
+                                    @foreach($unidades as $u)
+                                        <option value="{{ $u->id }}">{{ $u->nombre }} ({{ $u->sucursal->nombre }})</option>
+                                    @endforeach
+                                </select>
+                                @error('unidad_id') <span class="text-danger small">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>Gerente Responsable</label>
-                                <input type="text" wire:model="gerente" class="form-control" placeholder="Nombre completo">
+                                <label>Nombre del Área <span class="text-danger">*</span></label>
+                                <input type="text" wire:model="nombre" class="form-control" placeholder="Ej: EST (Establecida)">
+                                @error('nombre') <span class="text-danger small">{{ $message }}</span> @enderror
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label>Dirección</label>
-                                <input type="text" wire:model="direccion" class="form-control" placeholder="Dirección completa">
+                            <div class="col-md-8 form-group">
+                                <label>Dirección Coincidente</label>
+                                <input type="text" wire:model="direccion" class="form-control" placeholder="Dirección específica">
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Gerente Responsable</label>
+                                <input type="text" wire:model="gerente" class="form-control" placeholder="Nombre completo">
                             </div>
                         </div>
 
@@ -101,16 +115,16 @@
                             </div>
                             <div class="col-md-4 form-group">
                                 <label>Latitud (GPS)</label>
-                                <input type="text" wire:model="latitud" class="form-control" placeholder="Ej: 4.6097">
+                                <input type="text" wire:model="latitud" class="form-control">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label>Longitud (GPS)</label>
-                                <input type="text" wire:model="longitud" class="form-control" placeholder="Ej: -74.0817">
+                                <input type="text" wire:model="longitud" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group mt-3">
-                            <label class="font-weight-bold">Especies en esta Sucursal:</label>
+                            <label class="font-weight-bold">Especies en esta Área:</label>
                             <div class="row">
                                 @forelse($especies as $especialidad)
                                     <div class="col-md-4">
@@ -121,7 +135,7 @@
                                     </div>
                                 @empty
                                     <div class="col-12">
-                                        <p class="text-muted"><i class="fas fa-exclamation-triangle"></i> No hay especies registradas. Por favor, agregue especies en el módulo de Configuración > Especies.</p>
+                                        <p class="text-muted">No hay especies registradas.</p>
                                     </div>
                                 @endforelse
                             </div>
@@ -129,8 +143,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" wire:click="closeModal()" class="btn btn-secondary">Cancelar</button>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save mr-1"></i> Guardar Sucursal
+                        <button type="submit" class="btn btn-info">
+                            <i class="fas fa-save mr-1"></i> Guardar Área
                         </button>
                     </div>
                 </form>

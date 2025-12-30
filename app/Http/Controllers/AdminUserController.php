@@ -11,19 +11,16 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        $granjas = \App\Models\Granja::all();
-        $sitios = \App\Models\Sitio::all();
-        return view('admin.users.index', compact('users', 'granjas', 'sitios'));
+        return view('admin.users.index');
     }
 
     public function create()
     {
         $roles = Role::with('permissions')->get();
         $permissions = \Spatie\Permission\Models\Permission::all();
-        $granjas = \App\Models\Granja::all();
-        $sitios = \App\Models\Sitio::all();
-        return view('admin.users.create', compact('roles', 'permissions', 'granjas', 'sitios'));
+        $sucursales = \App\Models\Sucursal::all();
+        $unidades = \App\Models\Unidad::all();
+        return view('admin.users.create', compact('roles', 'permissions', 'sucursales', 'unidades'));
     }
 
     public function store(Request $request)
@@ -33,8 +30,8 @@ class AdminUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|string|exists:roles,name',
-            'granja_id' => 'nullable|exists:granjas,id',
-            'sitio_id' => 'nullable|exists:sitios,id',
+            'sucursal_id' => 'nullable|exists:sucursales,id',
+            'unidad_id' => 'nullable|exists:unidades,id',
             'permissions' => 'nullable|array',
             'permissions.*' => 'exists:permissions,name',
         ]);
@@ -43,8 +40,8 @@ class AdminUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'granja_id' => $request->granja_id,
-            'sitio_id' => $request->sitio_id,
+            'sucursal_id' => $request->sucursal_id,
+            'unidad_id' => $request->unidad_id,
         ]);
 
         $user->assignRole($request->role);
@@ -73,10 +70,10 @@ class AdminUserController extends Controller
     {
         $roles = Role::with('permissions')->get();
         $permissions = \Spatie\Permission\Models\Permission::all();
-        $granjas = \App\Models\Granja::all();
-        $sitios = \App\Models\Sitio::all();
+        $sucursales = \App\Models\Sucursal::all();
+        $unidades = \App\Models\Unidad::all();
         $userPermissions = $user->getPermissionNames()->toArray();
-        return view('admin.users.edit', compact('user', 'roles', 'permissions', 'granjas', 'sitios', 'userPermissions'));
+        return view('admin.users.edit', compact('user', 'roles', 'permissions', 'sucursales', 'unidades', 'userPermissions'));
     }
 
     public function update(Request $request, User $user)
@@ -85,13 +82,13 @@ class AdminUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|string|exists:roles,name',
-            'granja_id' => 'nullable|exists:granjas,id',
-            'sitio_id' => 'nullable|exists:sitios,id',
+            'sucursal_id' => 'nullable|exists:sucursales,id',
+            'unidad_id' => 'nullable|exists:unidades,id',
             'permissions' => 'nullable|array',
             'permissions.*' => 'exists:permissions,name',
         ]);
 
-        $user->update($request->only(['name', 'email', 'granja_id', 'sitio_id']));
+        $user->update($request->only(['name', 'email', 'sucursal_id', 'unidad_id']));
 
         $user->syncRoles($request->role);
         

@@ -9,8 +9,8 @@ class Especializacion extends Model
     protected $table = 'especializacions';
     protected $fillable = ['nombre'];
 
-    public function granjas()
+    public function areas()
     {
-        return $this->belongsToMany(Granja::class, 'granja_especializacion');
+        return $this->belongsToMany(Area::class, 'area_especializacion');
     }
 }

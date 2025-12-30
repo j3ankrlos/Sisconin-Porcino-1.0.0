@@ -33,17 +33,17 @@
     </div>
   </div>
 
-  <!-- Sucursales / Granjas -->
+  <!-- Sucursales / Unidades -->
   <div class="col-lg-3 col-6">
     <div class="small-box bg-success">
       <div class="inner">
         <h3>{{ $granjaCount }}</h3>
-        <p>Sucursales (Granjas)</p>
+        <p>Sucursales / Áreas</p>
       </div>
       <div class="icon">
         <i class="fas fa-map-marked-alt"></i>
       </div>
-      <a href="{{ route('admin.granjas.index') }}" class="small-box-footer">Ver Granjas <i class="fas fa-arrow-circle-right"></i></a>
+      <a href="{{ route('admin.sucursales.index') }}" class="small-box-footer">Ver Sucursales <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
 

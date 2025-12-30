@@ -13,7 +13,7 @@ class AdminController extends Controller
         $animalCount = \App\Models\Animal::count();
         $especieCount = \App\Models\Especie::count();
         $razaCount = \App\Models\Raza::count();
-        $granjaCount = \App\Models\Granja::count();
+        $granjaCount = \App\Models\Area::count();
 
         return view('admin.index', compact(
             'userCount', 

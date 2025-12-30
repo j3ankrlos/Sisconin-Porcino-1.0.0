@@ -5,9 +5,9 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Animal;
 use App\Models\Raza;
+use App\Models\Area;
 use App\Models\Nave;
 use App\Models\Seccion;
-use App\Models\Granja;
 use App\Models\AnimalEvento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -220,14 +220,17 @@ class AnimalBatchCreate extends Component
     public function render()
     {
         $razas = Raza::whereIn('nombre', ['F1', 'F2'])->get();
-        $granjaIds = Granja::where('etapa', 'Sitio I')->pluck('id');
+        // Obtener IDs de las Areas (ej: EST, EXP) que pertenecen al Sitio I (Unidad)
+        $areaIds = Area::whereHas('unidad', function($q) {
+            $q->where('nombre', 'Sitio I');
+        })->pluck('id');
 
         // Filtrado de Naves
-        $naves = Nave::whereIn('granja_id', $granjaIds)
+        $naves = Nave::whereIn('area_id', $areaIds)
             ->when($this->search_nave, function($q) {
                 $q->where('nombre', 'like', '%' . $this->search_nave . '%');
             })
-            ->with('granja')
+            ->with('area')
             ->get();
 
         // Filtrado de Secciones

@@ -65,7 +65,7 @@
             mortalidad: false,
             reportes: false,
             admin: {{ request()->is('admin/users*', 'admin/roles*') ? 'true' : 'false' }},
-            config: {{ request()->is('admin/empresa*', 'admin/granjas*', 'admin/especies*', 'admin/razas*') ? 'true' : 'false' }}
+            config: {{ request()->is('admin/empresa*', 'admin/sucursales*', 'admin/especies*', 'admin/razas*') ? 'true' : 'false' }}
         }
       }"
       :class="{ 'sidebar-collapse': !sidebarOpen, 'sidebar-open': sidebarOpen && window.innerWidth <= 992 }">
@@ -142,8 +142,8 @@
           </li>
           <li class="nav-header">GESTIÓN POR SITIO</li>
           
-          <!-- Sitio I -->
-          @can('ver sitio 1')
+          <!-- Sucursal / Unidad / Área -->
+          @can('ver sucursal')
           <li class="nav-item" :class="{ 'menu-open': openMenus.sitio1 }">
             <a href="#" class="nav-link {{ request()->is('admin/animals*', 'admin/movements*') ? 'active' : '' }}" @click.prevent="openMenus.sitio1 = !openMenus.sitio1">
               <i class="nav-icon fas fa-map-marker-alt text-primary"></i>
@@ -356,8 +356,8 @@
           </li>
           @endcan
 
-          <!-- Sitio II -->
-          @can('ver sitio 2')
+          <!-- Unidad Placeholder (Sitio II) -->
+          @can('ver unidad')
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-map-marker-alt text-success"></i>
@@ -394,8 +394,8 @@
           </li>
           @endcan
 
-          <!-- Sitio III -->
-          @can('ver sitio 3')
+          <!-- Área Placeholder (Sitio III) -->
+          @can('ver area')
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-map-marker-alt text-warning"></i>
@@ -469,7 +469,7 @@
           @can('ver empresa')
           <li class="nav-header">CONFIGURACIÓN</li>
           <li class="nav-item" :class="{ 'menu-open': openMenus.config }">
-            <a href="#" class="nav-link {{ request()->is('admin/empresa*', 'admin/granjas*', 'admin/especies*', 'admin/razas*') ? 'active' : '' }}" @click.prevent="openMenus.config = !openMenus.config">
+            <a href="#" class="nav-link {{ request()->is('admin/empresa*', 'admin/sucursales*', 'admin/especies*', 'admin/razas*') ? 'active' : '' }}" @click.prevent="openMenus.config = !openMenus.config">
               <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Ajustes Sistema
@@ -484,9 +484,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('admin.granjas.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.granjas.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.sucursales.index') }}" wire:navigate class="nav-link {{ request()->routeIs('admin.sucursales.index') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Granjas / Sucursales</p>
+                  <p>Sucursales / Unidades</p>
                 </a>
               </li>
               <li class="nav-item">

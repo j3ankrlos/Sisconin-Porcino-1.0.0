@@ -8,8 +8,8 @@ class Empresa extends Model
 {
     protected $fillable = ['nombre', 'direccion', 'telefono', 'email', 'nit', 'fecha_fundacion'];
 
-    public function granjas()
+    public function sucursales()
     {
-        return $this->hasMany(Granja::class);
+        return $this->hasMany(Sucursal::class);
     }
 }

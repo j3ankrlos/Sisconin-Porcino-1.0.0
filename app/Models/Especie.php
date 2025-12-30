@@ -13,9 +13,9 @@ class Especie extends Model
         return $this->hasMany(Raza::class);
     }
 
-    public function granjas()
+    public function areas()
     {
-        return $this->belongsToMany(Granja::class, 'especie_granja');
+        return $this->belongsToMany(Area::class, 'area_especie');
     }
 
     public function animals()

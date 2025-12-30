@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\Animal;
 use App\Models\Especie;
 use App\Models\Raza;
-use App\Models\Granja;
+use App\Models\Area;
 use App\Models\Nave;
 use App\Models\Seccion;
 use App\Helpers\PicDateHelper;
@@ -153,10 +153,12 @@ class AnimalCreate extends Component
     {
         $razas = Raza::where('especie_id', $this->especie_id)->get();
         
-        // Obtener IDs de las granjas que pertenecen al Sitio I
-        $granjaIds = Granja::where('etapa', 'Sitio I')->pluck('id');
+        // Obtener IDs de las Areas (ej: EST, EXP) que pertenecen al Sitio I (Unidad)
+        $areaIds = Area::whereHas('unidad', function($q) {
+            $q->where('nombre', 'Sitio I');
+        })->pluck('id');
 
-        $naves = Nave::whereIn('granja_id', $granjaIds)
+        $naves = Nave::whereIn('area_id', $areaIds)
             ->when($this->search_nave, function($q) {
                 $q->where('nombre', 'like', '%' . $this->search_nave . '%');
             })

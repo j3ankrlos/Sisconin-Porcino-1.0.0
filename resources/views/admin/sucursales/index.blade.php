@@ -5,7 +5,7 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        @livewire('admin.granja-manager')
+        @livewire('admin.sucursal-manager')
     </div>
 </div>
 @endsection

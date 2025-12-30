@@ -9,11 +9,11 @@ class Nave extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['granja_id', 'nombre'];
-
-    public function granja()
+    protected $fillable = ['area_id', 'nombre'];
+    
+    public function area()
     {
-        return $this->belongsTo(Granja::class);
+        return $this->belongsTo(Area::class);
     }
 
     public function secciones()

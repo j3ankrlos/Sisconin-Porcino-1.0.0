@@ -12,9 +12,9 @@ class EmpresaController extends Controller
         return view('admin.empresa.index');
     }
 
-    public function granjas()
+    public function sucursales()
     {
-        return view('admin.granjas.index');
+        return view('admin.sucursales.index');
     }
 
     public function especies()

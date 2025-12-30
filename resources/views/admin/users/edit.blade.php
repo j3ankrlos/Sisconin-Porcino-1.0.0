@@ -44,8 +44,8 @@
           @php
             $groups = [
                 'Administración System' => ['ver usuarios', 'crear usuarios', 'editar usuarios', 'eliminar usuarios', 'ver roles'],
-                'Producción (Porcina)' => ['ver sitio 1', 'ver sitio 2', 'ver sitio 3', 'ver maternidad', 'ver reproduccion', 'ver reemplazo', 'ver movimientos', 'ver reportes', 'ver crear activos', 'ver mortalidad'],
-                'Configuración General' => ['ver empresa', 'editar empresa', 'ver granjas', 'crear granjas', 'editar granjas', 'eliminar granjas', 'ver especies', 'crear especies', 'editar especies', 'eliminar especies', 'ver razas', 'crear razas', 'editar razas', 'eliminar razas', 'ver granjas naves', 'ver secciones']
+                'Producción (Porcina)' => ['ver sucursal', 'ver unidad', 'ver area', 'ver maternidad', 'ver reproduccion', 'ver reemplazo', 'ver movimientos', 'ver reportes', 'ver crear activos', 'ver mortalidad'],
+                'Configuración General' => ['ver empresa', 'editar empresa', 'ver sucursales', 'crear sucursales', 'editar sucursales', 'eliminar sucursales', 'ver unidades', 'ver areas', 'ver especies', 'crear especies', 'editar especies', 'eliminar especies', 'ver razas', 'crear razas', 'editar razas', 'eliminar razas', 'ver naves', 'ver secciones']
             ];
           @endphp
 
@@ -75,30 +75,29 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="granja_id">Sucursal de Origen</label>
-        <select class="form-control" id="granja_id" name="granja_id">
-          <option value="">Seleccionar sucursal</option>
-          @foreach($granjas as $granja)
-            <option value="{{ $granja->id }}" data-nombre="{{ $granja->nombre }}" {{ $user->granja_id == $granja->id ? 'selected' : '' }}>{{ $granja->nombre }}</option>
-          @endforeach
-        </select>
-        @error('granja_id')
-          <div class="text-danger">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div id="sitio_container" class="form-group" style="{{ optional($user->granja)->nombre == 'Porcina' ? '' : 'display: none;' }}">
-        <label for="sitio_id">Sitio / Área Específica</label>
-        <select class="form-control" id="sitio_id" name="sitio_id">
-          <option value="">Seleccionar sitio</option>
-          @foreach($sitios as $sitio)
-            <option value="{{ $sitio->id }}" data-granja="{{ $sitio->granja_id }}" {{ $user->sitio_id == $sitio->id ? 'selected' : '' }}>{{ $sitio->nombre }}</option>
-          @endforeach
-        </select>
-        @error('sitio_id')
-          <div class="text-danger">{{ $message }}</div>
-        @enderror
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="sucursal_id">Sucursal</label>
+            <select class="form-control" id="sucursal_id" name="sucursal_id">
+              <option value="">Seleccionar sucursal</option>
+              @foreach($sucursales as $sucursal)
+                <option value="{{ $sucursal->id }}" {{ $user->sucursal_id == $sucursal->id ? 'selected' : '' }}>{{ $sucursal->nombre }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" id="unidad_container" style="{{ $user->sucursal_id ? '' : 'display: none;' }}">
+            <label for="unidad_id">Unidad</label>
+            <select class="form-control" id="unidad_id" name="unidad_id">
+              <option value="">Seleccionar unidad</option>
+              @foreach($unidades as $unidad)
+                <option value="{{ $unidad->id }}" data-sucursal="{{ $unidad->sucursal_id }}" {{ $user->unidad_id == $unidad->id ? 'selected' : '' }}>{{ $unidad->nombre }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
       </div>
 
 
@@ -135,44 +134,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const granjaSelect = document.getElementById('granja_id');
-    const sitioContainer = document.getElementById('sitio_container');
-    const sitioSelect = document.getElementById('sitio_id');
-    const sitioOptions = Array.from(sitioSelect.options);
-    const initialSitioValue = "{{ $user->sitio_id }}";
+    const sucursalSelect = document.getElementById('sucursal_id');
+    const unidadContainer = document.getElementById('unidad_container');
+    const unidadSelect = document.getElementById('unidad_id');
+    const unidadOptions = Array.from(unidadSelect.options);
 
-    function filterSitios() {
-        const selectedOption = granjaSelect.options[granjaSelect.selectedIndex];
-        const granjaNombre = selectedOption.getAttribute('data-nombre');
-        const granjaId = granjaSelect.value;
+    const initialUnidadValue = "{{ $user->unidad_id }}";
 
-        // Limpiar opciones actuales
-        sitioSelect.innerHTML = '<option value="">Seleccionar sitio</option>';
+    function filterUnidades() {
+        const sucursalId = sucursalSelect.value;
+        unidadSelect.innerHTML = '<option value="">Seleccionar unidad</option>';
 
-        if (granjaNombre === 'Porcina') {
-            sitioContainer.style.display = 'block';
-            sitioOptions.forEach(option => {
-                if (option.getAttribute('data-granja') === granjaId) {
-                    if (option.value === initialSitioValue && granjaId == "{{ $user->granja_id }}") {
-                        option.selected = true;
-                    }
-                    sitioSelect.add(option);
+        if (sucursalId) {
+            unidadContainer.style.display = 'block';
+            unidadOptions.forEach(option => {
+                if (option.getAttribute('data-sucursal') === sucursalId) {
+                    const clone = option.cloneNode(true);
+                    if (clone.value === initialUnidadValue) clone.selected = true;
+                    unidadSelect.add(clone);
                 }
             });
         } else {
-            sitioContainer.style.display = 'none';
-            sitioSelect.value = '';
+            unidadContainer.style.display = 'none';
         }
     }
 
-    granjaSelect.addEventListener('change', filterSitios);
+    sucursalSelect.addEventListener('change', filterUnidades);
     
-    // Ejecutar al cargar para asegurar consistencia
-    if (granjaSelect.value) {
-        filterSitios();
-        if (initialSitioValue) {
-            sitioSelect.value = initialSitioValue;
-        }
+    // Inicialización
+    if (sucursalSelect.value) {
+        filterUnidades();
     }
 });
 </script>

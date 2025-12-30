@@ -6,7 +6,7 @@ use App\Models\Animal;
 use App\Models\AnimalEvento;
 use App\Models\Seccion;
 use App\Models\Nave;
-use App\Models\Granja;
+use App\Models\Area;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -97,7 +97,7 @@ class AnimalMovement extends Component
             return;
         }
 
-        $this->animal = Animal::with(['especie', 'raza', 'seccion.nave.granja', 'eventos.user', 'eventos.seccion.nave'])
+        $this->animal = Animal::with(['especie', 'raza', 'seccion.nave.area', 'eventos.user', 'eventos.seccion.nave'])
             ->where('id_animal', $this->searchId)
             ->first();
     }
@@ -142,10 +142,12 @@ class AnimalMovement extends Component
 
     public function render()
     {
-        // Obtener todas las Granjas que son del Sitio I (EST, EXP)
-        $granjaIds = Granja::where('etapa', 'Sitio I')->pluck('id');
+        // Obtener todas las Areas que son del Sitio I (EST, EXP)
+        $areaIds = Area::whereHas('unidad', function($q) {
+            $q->where('nombre', 'Sitio I');
+        })->pluck('id');
 
-        $naves = Nave::whereIn('granja_id', $granjaIds)
+        $naves = Nave::whereIn('area_id', $areaIds)
             ->when($this->search_nave, function($q) {
                 $q->where('nombre', 'like', '%' . $this->search_nave . '%');
             })
