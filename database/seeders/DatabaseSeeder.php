@@ -20,8 +20,28 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             EmpresaSeeder::class,
             UbicacionesSeeder::class,
+            CompanyHierarchySeeder::class,
             AnimalSeeder::class,
         ]);
+
+        // Obtener la empresa creada
+        $empresa = \App\Models\Empresa::first();
+
+        // Crear Sucursal y Unidad 'Todas' para el SuperUsuario
+        $sucursalTodas = null;
+        $unidadTodas = null;
+
+        if ($empresa) {
+            $sucursalTodas = \App\Models\Sucursal::firstOrCreate(
+                ['nombre' => 'Todas'],
+                ['empresa_id' => $empresa->id]
+            );
+
+            $unidadTodas = \App\Models\Unidad::firstOrCreate(
+                ['nombre' => 'Todas'],
+                ['sucursal_id' => $sucursalTodas->id]
+            );
+        }
 
         // 2. Crear Usuario Administrador Principal (JEAN)
         $admin = User::firstOrCreate(
@@ -29,12 +49,22 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Jean',
                 'password' => bcrypt('123'),
+                'sucursal_id' => $sucursalTodas?->id,
+                'unidad_id' => $unidadTodas?->id,
             ]
         );
 
-        // Asegurar que tenga el rol Admin
-        if (!$admin->hasRole('Admin')) {
-            $admin->assignRole('Admin');
+        // Actualizar datos si el usuario ya existía (para asegurar que tenga sucursal/unidad 'Todas')
+        if ($sucursalTodas && $unidadTodas) {
+            $admin->update([
+                'sucursal_id' => $sucursalTodas->id,
+                'unidad_id' => $unidadTodas->id
+            ]);
+        }
+
+        // Asegurar que tenga el rol SuperUsuario
+        if (!$admin->hasRole('SuperUsuario')) {
+            $admin->assignRole('SuperUsuario');
         }
 
         // Crear un usuario de prueba (Opcional)
@@ -46,8 +76,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        if (!$user->hasRole('User')) {
-            $user->assignRole('User');
+        if (!$user->hasRole('SitioIUsuario')) { // Asignando un rol válido del seeder
+            $user->assignRole('SitioIUsuario');
         }
     }
 }

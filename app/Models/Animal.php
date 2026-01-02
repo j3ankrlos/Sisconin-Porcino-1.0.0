@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Animal extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, \App\Traits\Auditable;
 
     protected $fillable = [
         'id_animal',

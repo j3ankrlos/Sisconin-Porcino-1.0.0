@@ -10,6 +10,29 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <!-- Fecha de Nacimiento / PIC Sincronizada -->
+                        <div class="col-md-12 mb-3">
+                            <div class="p-2 border rounded bg-light shadow-sm">
+                                <label class="text-xs text-primary font-weight-bold uppercase mb-2 d-block">
+                                    <i class="fas fa-calendar-day mr-1"></i>Fecha de Nacimiento del Lote
+                                </label>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-6 pr-1">
+                                        <input type="date" wire:model.live="fecha_nacimiento" class="form-control form-control-sm border-primary">
+                                    </div>
+                                    <div class="col-3 px-1">
+                                        <input type="text" wire:model.live="vuelta" class="form-control form-control-sm text-center" placeholder="Vta">
+                                    </div>
+                                    <div class="col-3 pl-1">
+                                        <input type="text" wire:model.live="pic" class="form-control form-control-sm text-center" placeholder="PIC">
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <span class="badge badge-info text-xs">PIC: {{ \App\Helpers\PicDateHelper::format($fecha_nacimiento) }}</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Lote y Genética -->
                         <div class="col-md-6 form-group">
                             <label class="text-xs text-muted font-weight-bold uppercase mb-1">Cód. Lote</label>

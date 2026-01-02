@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnimalEvento extends Model
 {
+    use \App\Traits\Auditable;
     protected $fillable = [
         'animal_id',
         'user_id',

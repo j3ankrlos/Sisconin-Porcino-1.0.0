@@ -29,9 +29,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-white border-right-0"><i class="fas fa-redo-alt text-info"></i></span>
                                     </div>
-                                    <input type="number" wire:model.live="vuelta" class="form-control border-left-0 bg-white" readonly>
-                                </div>
-                            </div>
+                                    <input type="text" wire:model.live="vuelta" class="form-control border-left-0 bg-white" placeholder="Vta">
+                                 </div>
+                             </div>
 
                             <div class="col-md-3 form-group mb-0">
                                 <label class="small font-weight-bold text-muted">Fecha PIC</label>
@@ -39,9 +39,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-white border-right-0"><i class="fas fa-fingerprint text-success"></i></span>
                                     </div>
-                                    <input type="number" wire:model.live="pic" class="form-control border-left-0 bg-white" readonly>
-                                </div>
-                            </div>
+                                    <input type="text" wire:model.live="pic" class="form-control border-left-0 bg-white" placeholder="PIC">
+                                 </div>
+                             </div>
                         </div>
 
                         <div class="mt-3 text-center">

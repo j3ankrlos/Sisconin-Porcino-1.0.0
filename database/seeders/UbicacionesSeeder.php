@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Granja;
+use App\Models\Area;
+use App\Models\Unidad;
 use App\Models\Nave;
 use App\Models\Seccion;
 use App\Models\Empresa;
@@ -21,7 +22,7 @@ class UbicacionesSeeder extends Seeder
             return;
         }
 
-        // Estructura: [Etapa, Granja, Nave, Seccion]
+        // Estructura: [Unidad (Sitio), Area (Granja), Nave, Seccion]
         $data = [
             // SITIO I - EST (Breeding/Gestation)
             ['Sitio I', 'EST', 'G1', 'A'], ['Sitio I', 'EST', 'G1', 'B'], ['Sitio I', 'EST', 'G1', 'C'], ['Sitio I', 'EST', 'G1', 'D'], ['Sitio I', 'EST', 'G1', 'E'], ['Sitio I', 'EST', 'G1', 'F'],
@@ -49,20 +50,23 @@ class UbicacionesSeeder extends Seeder
         ];
 
         foreach ($data as $item) {
-            $granja = Granja::firstOrCreate([
-                'nombre' => $item[1],
-                'empresa_id' => $empresa->id,
-            ], [
-                'etapa' => $item[0],
+            // Check if Unidad exists
+            $unidad = Unidad::firstOrCreate([
+                'nombre' => $item[0]
             ]);
 
-            // Asegurar que la etapa esté actualizada
-            if ($granja->etapa !== $item[0]) {
-                $granja->update(['etapa' => $item[0]]);
-            }
+            // Create Area related to Unidad
+            $area = Area::firstOrCreate([
+                'nombre' => $item[1],
+                'unidad_id' => $unidad->id
+            ], [
+                // 'etapa' was removed or is not in Area model? Assuming we can store it or it's implied by Area Name
+                // But Area table has empresa_id constraint?
+                'empresa_id' => $empresa->id
+            ]);
 
             $nave = Nave::firstOrCreate([
-                'granja_id' => $granja->id,
+                'area_id' => $area->id, // Changed from granja_id
                 'nombre' => $item[2]
             ]);
 

@@ -24,6 +24,10 @@ class AnimalCreate extends Component
     // Datos PIC
     public $vuelta, $pic;
 
+    // Flags de sincronización
+    public $syncingFromDate = false;
+    public $syncingFromPic = false;
+
     // Búsqueda para combos (Searchable Selects)
     public $search_nave = '';
     public $search_seccion = '';
@@ -83,18 +87,30 @@ class AnimalCreate extends Component
     // Sincronización: Fecha -> PIC
     public function updatedFechaNacimiento()
     {
-        $this->syncPicFromDate();
+        if (!$this->syncingFromPic) {
+            $this->syncingFromDate = true;
+            $this->syncPicFromDate();
+            $this->syncingFromDate = false;
+        }
     }
 
     // Sincronización: PIC -> Fecha
     public function updatedVuelta()
     {
-        $this->syncDateFromPic();
+        if (!$this->syncingFromDate) {
+            $this->syncingFromPic = true;
+            $this->syncDateFromPic();
+            $this->syncingFromPic = false;
+        }
     }
 
     public function updatedPic()
     {
-        $this->syncDateFromPic();
+        if (!$this->syncingFromDate) {
+            $this->syncingFromPic = true;
+            $this->syncDateFromPic();
+            $this->syncingFromPic = false;
+        }
     }
 
     private function syncPicFromDate()

@@ -84,7 +84,10 @@
                         <i class="fas fa-venus text-pink" style="color: #e83e8c;"></i> Hembra
                         @endif
                     </td>
-                    <td>{{ $animal->fecha_nacimiento->format('d/m/Y') }}</td>
+                    <td>
+                        {{ $animal->fecha_nacimiento->format('d/m/Y') }}
+                        <br><small class="badge badge-light border">{{ \App\Helpers\PicDateHelper::format($animal->fecha_nacimiento) }}</small>
+                    </td>
                     <td>
                         @php
                             $badgeColor = match($animal->estado) {

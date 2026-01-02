@@ -27,6 +27,15 @@ class AnimalBatchCreate extends Component
     public $id_inicio; // ID de inicio manual/automático
     public $puedo_editar_id = false; // Control de bloqueo del campo ID
     
+    // Datos de Fecha y PIC
+    public $fecha_nacimiento;
+    public $vuelta;
+    public $pic;
+    
+    // Flags de sincronización
+    public $syncingFromDate = false;
+    public $syncingFromPic = false;
+    
     // Información de Secuencia
     public $ultimo_id_sistema = 0;
     
@@ -52,6 +61,57 @@ class AnimalBatchCreate extends Component
     {
         // No pre-cargar genética por defecto
         $this->actualizarInformacionSecuencia();
+        
+        // Inicializar fecha
+        $this->fecha_nacimiento = date('Y-m-d');
+        $this->syncPicFromDate();
+    }
+
+    public function updatedFechaNacimiento()
+    {
+        if (!$this->syncingFromPic) {
+            $this->syncingFromDate = true;
+            $this->syncPicFromDate();
+            $this->syncingFromDate = false;
+        }
+    }
+
+    public function updatedVuelta()
+    {
+        if (!$this->syncingFromDate) {
+            $this->syncingFromPic = true;
+            $this->syncDateFromPic();
+            $this->syncingFromPic = false;
+        }
+    }
+
+    public function updatedPic()
+    {
+        if (!$this->syncingFromDate) {
+            $this->syncingFromPic = true;
+            $this->syncDateFromPic();
+            $this->syncingFromPic = false;
+        }
+    }
+
+    private function syncPicFromDate()
+    {
+        if ($this->fecha_nacimiento) {
+            $this->vuelta = \App\Helpers\PicDateHelper::getVuelta($this->fecha_nacimiento);
+            $this->pic = \App\Helpers\PicDateHelper::getPic($this->fecha_nacimiento);
+        }
+    }
+
+    private function syncDateFromPic()
+    {
+        if (!empty($this->vuelta) && !empty($this->pic)) {
+            try {
+                $date = \App\Helpers\PicDateHelper::picToDate($this->pic, $this->vuelta);
+                $this->fecha_nacimiento = $date->format('Y-m-d');
+            } catch (\Exception $e) {
+                // Silencio en error
+            }
+        }
     }
 
     public function updatedRazaId()
@@ -173,7 +233,7 @@ class AnimalBatchCreate extends Component
                     'especie_id' => 1, // Porcino
                     'raza_id' => $this->raza_id,
                     'sexo' => $this->sexo,
-                    'fecha_nacimiento' => now(),
+                    'fecha_nacimiento' => $this->fecha_nacimiento,
                     'lote' => $item['lote'],
                     'seccion_id' => $this->seccion_id,
                     'corral' => $this->corral,
@@ -191,7 +251,7 @@ class AnimalBatchCreate extends Component
                     'detalle' => "Genética " . $item['genetica'] . " - Lote " . $item['lote'],
                     'seccion_id' => $this->seccion_id,
                     'corral' => $this->corral,
-                    'fecha' => now(),
+                    'fecha' => $this->fecha_nacimiento,
                 ]);
             }
 
